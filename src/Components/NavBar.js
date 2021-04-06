@@ -34,7 +34,6 @@ const ImgLogo = styled.img`
 const Btn = styled.button`
   padding: 5px 10px;
   font-size: 20px;
-  cursor: pointer;
   background-color: transparent;
   border: none;
   color: inherit;
@@ -42,7 +41,7 @@ const Btn = styled.button`
   transition: all 0.4s ease-in-out;
   ::before {
     content: '';
-    border: 2px solid #f93af4;
+    border: 2px solid #C838F4;
     top: -2px;
     left: -2px;
     width: 100%;
