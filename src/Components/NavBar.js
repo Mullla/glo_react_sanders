@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import logoImg from '../img/logo.svg';
+import { Btn } from './Btn';
 
 
 const NavBarStyled = styled.header`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: 10;
   height: 80px;
   width: 100vw;
   display: flex;
@@ -31,40 +32,6 @@ const ImgLogo = styled.img`
   width: 60px;
 `;
 
-const Btn = styled.button`
-  padding: 5px 10px;
-  font-size: 20px;
-  background-color: transparent;
-  border: none;
-  color: inherit;
-  position: relative;
-  transition: all 0.4s ease-in-out;
-  ::before {
-    content: '';
-    border: 2px solid #C838F4;
-    top: -2px;
-    left: -2px;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
-  ::after {
-    content: '';
-    border: 2px solid #38c8f4;
-    bottom: -2px;
-    right: -2px;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
-
-  :hover {
-    transform: scale(1.1);
-    ::before, ::after {
-      opacity: 0.4;
-    }
-  }
-`;
 
 export const NavBar = () => (
   <NavBarStyled>

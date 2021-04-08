@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Btn } from './Btn';
 
 const Overlay = styled.div`
   position: fixed;
@@ -33,48 +34,12 @@ const Banner = styled.div`
   background-image: url(${ ({ img }) => img});
   background-size: cover;
   background-position: center;
+  margin: -5px;
   margin-bottom: 20px;
-  width: 100%;
+  width: 102%;
 `;
 
-const Btn = styled.button`
-  padding: 5px 10px;
-  font-size: 20px;
-  background-color: transparent;
-  border: none;
-  color: inherit;
-  position: relative;
-  transition: all 0.4s ease-in-out;
-  margin-bottom: 25px;
-  margin-top: auto;
-  ::before {
-    content: '';
-    border: 2px solid #C838F4;
-    top: -2px;
-    left: -2px;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
-  ::after {
-    content: '';
-    border: 2px solid #38c8f4;
-    bottom: -2px;
-    right: -2px;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
-
-  :hover {
-    transform: scale(1.1);
-    ::before, ::after {
-      opacity: 0.4;
-    }
-  }
-`;
-
-const Info = styled.div`
+const Info = styled.section`
   width: 100%;
   display: flex;
   justify-content: space-between;
