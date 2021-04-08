@@ -54,15 +54,16 @@ const Span = styled.span`
 
 // props деструктурируется 
 // т.е. {itemList} заменяет слово props
-export const ListItem = ({itemList}) => (
+export const ListItem = ({ itemList, setOpenItem }) => (
   <List>
     {itemList.map(item => (
       <Item 
       key={item.id}
       img={item.img}
+      // при клике item (весь товар) передается в openItem в хуке
+      onClick={() => setOpenItem(item)}
       >
         <Span>{item.name}</Span>
-        <p>{item.price.toLocaleString('ru-RU', {style: 'currency', currency: 'RUB'})}</p>
       </Item>
     ))}
   </List>
