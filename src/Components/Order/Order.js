@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Btn } from './Btn';
+import { Btn } from '../Btn/Btn';
 import { OrderListItem } from './OrderListItem';
 
-const OrderStyled = styled.section`
+const OrderStyled = styled.aside`
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -28,11 +28,10 @@ const OrderTitle = styled.h2`
 
 const OrderContent = styled.div`
   flex-grow: 1;
+  text-align: center;
 `;
 
-const OrderList = styled.ul`
-
-`;
+const OrderList = styled.ul``;
 
 const Total = styled.div`
   display: flex;
@@ -49,17 +48,22 @@ const TotalPrice = styled.span`
   font-weight: 700;
 `;
 
-export const Order = () => {
+const EmptyList = styled.p`
+  text-align: center;
+`;
+
+export const Order = ({ orders }) => {
   return (
     <OrderStyled>
       <OrderTitle>You ordered: </OrderTitle>
 
       <OrderContent>
-        <OrderList>
-          <OrderListItem />
-          <OrderListItem />
-          <OrderListItem />
-        </OrderList>
+      {/* проверяем есть ли заказы в списке заказов, если да, то отображаются компоненты, если нет, то надпись, что списко заказов пуст */}
+        {orders.length ? 
+          <OrderList>
+            { orders.map(order => <OrderListItem order={order}/>) }
+          </OrderList> : 
+        <EmptyList>List of orders is empty</EmptyList>}
 
         <Total>
           <span>Total:</span>

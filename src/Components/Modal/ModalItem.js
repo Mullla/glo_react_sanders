@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Btn } from './Btn';
+import { Btn } from '../Btn/Btn';
 
 const Overlay = styled.div`
   position: fixed;
@@ -56,16 +56,28 @@ const Price = styled.p`
   font-size: 24px;
 `;
 
-export const ModalItem = ({ openItem, setOpenItem }) => {
+export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
-  function closeModal(e) {
+  const closeModal = e => {
     // если клик вне модалки т.е. по оверлею, то передаем null в setOpenItem, так окно закроется, потому что openItem будет null
     if(e.target.id === 'overlay') {
       setOpenItem(null);
     }
   }
 
-  if(!openItem) return null;
+  const order = {
+    // сохраняем все свойства openItem
+    ...openItem
+  };
+
+  const addToOrder = () => {
+    // передаем старые заказы, которые были[...orders], и добавляем новый заказ из order
+    setOrders([...orders, order]);
+    // чтобы закрылось модальное окно
+    setOpenItem(null);
+  }
+
+
   return (
     <Overlay id="overlay" onClick={closeModal}>
 
@@ -76,7 +88,7 @@ export const ModalItem = ({ openItem, setOpenItem }) => {
           <Name>{openItem.name}</Name>
           <Price>{openItem.price.toLocaleString('ru-RU', {style: 'currency', currency: 'RUB'})}</Price>
         </Info>
-        <Btn>Добавить</Btn>
+        <Btn onClick={addToOrder}>Добавить</Btn>
       </Modal>
 
     </Overlay>

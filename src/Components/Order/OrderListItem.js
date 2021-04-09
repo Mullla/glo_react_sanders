@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import trashImage from '../img/trash.svg';
+import trashImage from './../../img/trash.svg';
 
 const OrderItemStyled = styled.li`
   display: flex;
@@ -9,8 +9,8 @@ const OrderItemStyled = styled.li`
 
 const DeleteBtn = styled.button`
   background: url(${trashImage}) no-repeat center / cover;
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   border-color: transparent;
   cursor: pointer;
 `;
@@ -27,11 +27,12 @@ const ItemPrice = styled.span`
   font-weight: 700;
 `;
 
-export const OrderListItem = () => (
+export const OrderListItem = ({ order }) => (
   <OrderItemStyled>
-    <ItemName>Lukoshko</ItemName>
+    <ItemName>{order.name}</ItemName>
     <span>11</span>
-    <ItemPrice>850 ₽</ItemPrice>
+    <ItemPrice>{order.price.toLocaleString('ru-RU', 
+                { style: 'currency', currency: 'RUB'})}</ItemPrice>
     <DeleteBtn />
   </OrderItemStyled>
 );

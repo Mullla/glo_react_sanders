@@ -1,27 +1,27 @@
 import React from 'react';
 /* components */ 
-import { GlobalStyle } from './Components/GlobalStyle';
-import { NavBar } from './Components/NavBar';
-import { Menu } from './Components/Menu';
-import { ModalItem } from './Components/ModalItem';
-import { Order } from './Components/Order';
+import { GlobalStyle } from './Components/Style/GlobalStyle';
+import { NavBar } from './Components/NavBar/NavBar';
+import { Menu } from './Components/Menu/Menu';
+import { ModalItem } from './Components/Modal/ModalItem';
+import { Order } from './Components/Order/Order';
+import { useOpenItem } from './Components/Hooks/useOpenItem';
+import { useOrders } from './Components/Hooks/useOrders';
 
 
 function App() {
+  const openItem = useOpenItem();
+  const orders = useOrders();
 
-  // сразу деструктурируем массив из React.useState
-  // arr[0] - что изменяется
-  // arr[1] - функция, которая обрабатывает изменения
-  // openItem содержит данные о товаре, которые открываются в новом окне
-  // setOpenItem - назначает товар и запускает перерендер - изменяет стейт и дает команду перерендера, запускается при клике, поэтому передаем в виде пропса в компонент меню
-  const [openItem, setOpenItem] = React.useState(null);
   return (
     <>
       <GlobalStyle />
       <NavBar />
-      <Order />
-      <Menu setOpenItem={setOpenItem}/>
-      <ModalItem openItem={openItem} setOpenItem={setOpenItem}/>
+      <Order {...orders} />
+      {/* с помощью спред-оператора сразу передаем все свойства объекта openItem, функция useOpenItem возвращает объект */}
+      <Menu {...openItem}/>
+      {/* если в объекте openItem будет свойство openItem(то есть возвращает не undefined), тогда вернется ModalItem */}
+      { openItem.openItem && <ModalItem {...openItem} {...orders}/> }
     </>
   );
 }

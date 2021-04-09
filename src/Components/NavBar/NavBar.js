@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import logoImg from '../img/logo.svg';
-import { Btn } from './Btn';
+import logoImg from './../../img/logo-img.svg';
+import { Btn } from '../Btn/Btn';
 
 
 const NavBarStyled = styled.header`
@@ -10,7 +10,7 @@ const NavBarStyled = styled.header`
   left: 0;
   z-index: 10;
   height: 80px;
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
