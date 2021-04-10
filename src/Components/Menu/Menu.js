@@ -20,7 +20,7 @@ export const Menu = ({ setOpenItem }) => (
     <SectionMenu>
       <h2>Meals</h2>
       <ListItem 
-      itemList={dbMenu.burger} 
+      itemList={dbMenu.meal} 
       setOpenItem = {setOpenItem}
       />
     </SectionMenu>

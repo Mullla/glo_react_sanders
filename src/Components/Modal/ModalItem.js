@@ -88,7 +88,7 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
           <Name>{openItem.name}</Name>
           <Price>{openItem.price.toLocaleString('ru-RU', {style: 'currency', currency: 'RUB'})}</Price>
         </Info>
-        <Btn onClick={addToOrder}>Добавить</Btn>
+        <Btn onClick={addToOrder}>Add</Btn>
       </Modal>
 
     </Overlay>

@@ -40,6 +40,6 @@ export const NavBar = () => (
       <H1>Col. Sanders</H1>
     </Logo>
     
-    <Btn>Войти</Btn>
+    <Btn>Log In</Btn>
   </NavBarStyled>
 );

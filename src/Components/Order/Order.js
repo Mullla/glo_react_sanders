@@ -61,7 +61,7 @@ export const Order = ({ orders }) => {
       {/* проверяем есть ли заказы в списке заказов, если да, то отображаются компоненты, если нет, то надпись, что списко заказов пуст */}
         {orders.length ? 
           <OrderList>
-            { orders.map(order => <OrderListItem order={order}/>) }
+            { orders.map(order => <OrderListItem order={order} key={order.id}/>) }
           </OrderList> : 
         <EmptyList>List of orders is empty</EmptyList>}
 
@@ -71,7 +71,7 @@ export const Order = ({ orders }) => {
           <TotalPrice>850 ₽</TotalPrice>
         </Total>
 
-        <Btn>Оформить</Btn>
+        <Btn>Order</Btn>
       </OrderContent>
     </OrderStyled>
   );

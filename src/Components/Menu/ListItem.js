@@ -48,7 +48,8 @@ const Span = styled.span`
   color: #fff;
   mix-blend-mode: multiply;
   padding: 5px;
-  font-size: 20px;
+  font-size: 24px;
+  font-weight: 900;
 `;
 
 
