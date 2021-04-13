@@ -1,10 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+// * Components
 import { Btn } from '../Btn/Btn';
 import { CountItem } from '../Modal/CountItem';
+import { Toppings } from './Toppings';
+// * Hooks
 import { useCount } from '../Hooks/useCount';
-import { formatCurrency } from '../Functions/secondaryFunctions';
-import { countItemsPrice } from '../Functions/secondaryFunctions';
+import { useToppings } from '../Hooks/useToppings';
+// * functions
+import {
+  formatCurrency,
+  countItemsPrice,
+} from '../Functions/secondaryFunctions';
 
 const Overlay = styled.div`
   position: fixed;
@@ -88,8 +95,11 @@ const TotalPriceItem = styled.div`
 export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
   // подключаю хук, у которого есть состояние, функция: которая обрабатывает состояние и обработчик onChange
   const counter = useCount();
+  // топпинги конкретного блюда
+  // объект
+  const itemToppings = useToppings(openItem);
 
-  const closeModal = (e) => {
+  const closeModal = e => {
     // если клик вне модалки т.е. по оверлею, то передаем null в setOpenItem, так окно закроется, потому что openItem будет null
     if (e.target.id === 'overlay') {
       setOpenItem(null);
@@ -101,6 +111,8 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
     ...openItem,
     // берется значение из хука useCount
     count: counter.count,
+    // берется значение из объекта из useToppings
+    topping: itemToppings.toppings,
   };
 
   const addToOrder = () => {
@@ -121,6 +133,8 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
             <Price>{formatCurrency(openItem.price)}</Price>
           </ItemInfo>
           <CountItem {...counter} />
+          {/* рендерить только если они есть */}
+          {openItem.toppings && <Toppings {...itemToppings} />}
           <TotalPriceItem>
             <span>Total price: </span>
             <span>{formatCurrency(countItemsPrice(order))}</span>

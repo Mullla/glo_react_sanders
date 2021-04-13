@@ -46,7 +46,7 @@ const CountBtn = styled.button`
   }
 `;
 
-export function CountItem({ count, setCount, handlerChange }) {
+export const CountItem = ({ count, setCount, handlerChange }) => {
   return (
     <CountWrapper>
       <span>Quantity</span>
@@ -67,4 +67,4 @@ export function CountItem({ count, setCount, handlerChange }) {
       </div>
     </CountWrapper>
   );
-}
+};
