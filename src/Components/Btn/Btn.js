@@ -10,9 +10,10 @@ export const Btn = styled.button`
   transition: all 0.3s ease-in-out;
   margin-bottom: 25px;
   margin-top: auto;
+  align-self: center;
   ::before {
     content: '';
-    border: 2px solid #C838F4;
+    border: 2px solid #c838f4;
     top: -2px;
     left: -2px;
     width: 100%;
@@ -31,7 +32,8 @@ export const Btn = styled.button`
 
   :hover {
     transform: scale(1.1);
-    ::before, ::after {
+    ::before,
+    ::after {
       opacity: 0.4;
     }
   }
