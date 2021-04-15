@@ -55,7 +55,7 @@ const EmptyList = styled.p`
   text-align: center;
 `;
 
-export const Order = ({ orders, setOrders }) => {
+export const Order = ({ orders, setOrders, setOpenItem }) => {
   // функция перебора всех элементов, чтобы посчитать стоимость
   const total = orders.reduce(
     (result, order) => countItemsPrice(order) + result,
@@ -98,6 +98,7 @@ export const Order = ({ orders, setOrders }) => {
                 key={index}
                 deleteItem={deleteItem}
                 index={index}
+                setOpenItem={setOpenItem}
               />
             ))}
           </OrderList>

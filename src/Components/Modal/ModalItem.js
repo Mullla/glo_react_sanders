@@ -96,11 +96,14 @@ const TotalPriceItem = styled.div`
 
 export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
   // подключаю хук, у которого есть состояние, функция: которая обрабатывает состояние и обработчик onChange
-  const counter = useCount();
+  const counter = useCount(openItem);
   // топпинги конкретного блюда
   // объект
   const itemToppings = useToppings(openItem);
   const itemChoices = useChoices(openItem);
+  // нужно чтобы было true, у первого элемента индекс 0
+  // если открывать модалку не из списка заказов, то индекса вообще не будет
+  const isEdit = openItem.index > -1;
 
   const closeModal = e => {
     // если клик вне модалки т.е. по оверлею, то передаем null в setOpenItem, так окно закроется, потому что openItem будет null
@@ -117,6 +120,15 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
     // берется значение из объекта из useToppings
     topping: itemToppings.toppings,
     choice: itemChoices.choice,
+  };
+
+  const editOrder = () => {
+    const newOrder = [...orders];
+    // находим заказ, который хотим редактировать в newOrder
+    // этот заказ мы и прописываем в order
+    newOrder[openItem.index] = order;
+    setOrders(newOrder);
+    setOpenItem(null);
   };
 
   const addToOrder = () => {
@@ -146,9 +158,13 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
             <span>Total price: </span>
             <span>{formatCurrency(countItemsPrice(order))}</span>
           </TotalPriceItem>
-          {/* запрет добавления товара, если опции есть, но не были выбраны */}
-          <Btn onClick={addToOrder} disabled={order.choices && !order.choice}>
-            Add
+          <Btn
+            // проверяем, откуда кликнули и в зависимости от этого вызываем функцию
+            onClick={isEdit ? editOrder : addToOrder}
+            // запрет добавления товара, если опции есть, но не были выбраны
+            disabled={order.choices && !order.choice}
+          >
+            {isEdit ? 'Edit' : 'Add'}
           </Btn>
         </Content>
       </Modal>

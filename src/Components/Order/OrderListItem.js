@@ -69,7 +69,7 @@ const ToppingsItem = styled.li`
   }
 `;
 
-export const OrderListItem = ({ order, index, deleteItem }) => {
+export const OrderListItem = ({ order, index, deleteItem, setOpenItem }) => {
   const showToppings = toppings => {
     return toppings.reduce((result, item) => {
       if (item.checked) {
@@ -89,7 +89,12 @@ export const OrderListItem = ({ order, index, deleteItem }) => {
   */
 
   return (
-    <OrderItemStyled>
+    // передаем индекс, чтобы знать, какой именно заказ мы редактируем
+    <OrderItemStyled
+      onClick={e =>
+        !e.target.closest('button') ? setOpenItem({ ...order, index }) : ''
+      }
+    >
       <div>
         <ItemName>
           {order.name} {order.choice}

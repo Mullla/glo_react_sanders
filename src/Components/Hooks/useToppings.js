@@ -2,25 +2,23 @@ import { useState } from 'react';
 
 // переводим из массива со строками в массив с объектами
 const getToppings = toppings => {
-  if (toppings) {
-    return toppings.map(item => ({
-      name: item,
-      checked: false,
-    }));
-  } else {
-    return [];
-  }
+  return toppings.map(item => ({
+    name: item,
+    checked: false,
+  }));
 };
 
-// можно сделать проверку на наличие топпингов не в функции, а создать переменную, ее передавать в useState
-/* 
-  code: 
-  const readyTopping = openItem.toppings ? getToppings(openItem.toppings) : [];
-*/
 export function useToppings(openItem) {
   // мы не имеем права менять стейт
   // с хуками можно
-  const [toppings, setToppings] = useState(getToppings(openItem.toppings));
+  // проверка, что топпинги выбраны
+  const readyTopping = openItem.topping
+    ? // если топпинг в заказе ордер уже сформирован, то используем его, если еще нет, то формируем его
+      openItem.topping
+    : openItem.toppings
+    ? getToppings(openItem.toppings)
+    : [];
+  const [toppings, setToppings] = useState(readyTopping);
 
   // при клике на один их допов меняет значение
   // берем индекс топпинга, на котором кликнули
