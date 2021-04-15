@@ -11,7 +11,7 @@ export const Btn = styled.button`
   margin-bottom: 25px;
   margin-top: auto;
   align-self: center;
-  ::before {
+  &::before {
     content: '';
     border: 2px solid #c838f4;
     top: -2px;
@@ -20,7 +20,7 @@ export const Btn = styled.button`
     height: 100%;
     position: absolute;
   }
-  ::after {
+  &::after {
     content: '';
     border: 2px solid #38c8f4;
     bottom: -2px;
@@ -30,11 +30,17 @@ export const Btn = styled.button`
     position: absolute;
   }
 
-  :hover {
+  &:hover {
     transform: scale(1.1);
-    ::before,
-    ::after {
+    &::before,
+    &::after {
       opacity: 0.4;
+    }
+  }
+  &:disabled {
+    opacity: 0.5;
+    &:hover {
+      transform: scale(1);
     }
   }
 `;

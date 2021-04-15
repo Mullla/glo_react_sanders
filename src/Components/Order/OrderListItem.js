@@ -69,30 +69,46 @@ const ToppingsItem = styled.li`
   }
 `;
 
-const showToppings = toppings => {
-  return toppings.reduce((result, item) => {
-    if (item.checked) {
-      result.push(item.name);
-    }
+export const OrderListItem = ({ order, index, deleteItem }) => {
+  const showToppings = toppings => {
+    return toppings.reduce((result, item) => {
+      if (item.checked) {
+        result.push(item.name);
+      }
 
-    return result;
-  }, []);
+      return result;
+    }, []);
+  };
+
+  // или функция, которая перебирает order.topping и врзвращает строку
+  /*
+  const topping = order.topping
+    .filter(item => item.checked)
+    .map(item => item.name)
+    .join(', ');
+  */
+
+  return (
+    <OrderItemStyled>
+      <div>
+        <ItemName>
+          {order.name} {order.choice}
+        </ItemName>
+        <span>{order.count}</span>
+        <ItemPrice>{formatCurrency(countItemsPrice(order))}</ItemPrice>
+        <DeleteBtn onClick={() => deleteItem(index)} />
+      </div>
+      {/* 
+        если выводить строкой
+        {topping && <Toppings>Additives: {topping}</Toppings>}
+       */}
+      {order.toppings && (
+        <ToppingsList>
+          {showToppings(order.topping).map(item => (
+            <ToppingsItem key={item}>{item}</ToppingsItem>
+          ))}
+        </ToppingsList>
+      )}
+    </OrderItemStyled>
+  );
 };
-
-export const OrderListItem = ({ order }) => (
-  <OrderItemStyled>
-    <div>
-      <ItemName>{order.name}</ItemName>
-      <span>{order.count}</span>
-      <ItemPrice>{formatCurrency(countItemsPrice(order))}</ItemPrice>
-      <DeleteBtn />
-    </div>
-    {order.toppings && (
-      <ToppingsList>
-        {showToppings(order.topping).map(item => (
-          <ToppingsItem key={item}>{item}</ToppingsItem>
-        ))}
-      </ToppingsList>
-    )}
-  </OrderItemStyled>
-);

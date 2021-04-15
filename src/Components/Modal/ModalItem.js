@@ -4,9 +4,11 @@ import styled from 'styled-components';
 import { Btn } from '../Btn/Btn';
 import { CountItem } from '../Modal/CountItem';
 import { Toppings } from './Toppings';
+import { Choices } from './Choices';
 // * Hooks
 import { useCount } from '../Hooks/useCount';
 import { useToppings } from '../Hooks/useToppings';
+import { useChoices } from '../Hooks/useChoices';
 // * functions
 import {
   formatCurrency,
@@ -98,6 +100,7 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
   // топпинги конкретного блюда
   // объект
   const itemToppings = useToppings(openItem);
+  const itemChoices = useChoices(openItem);
 
   const closeModal = e => {
     // если клик вне модалки т.е. по оверлею, то передаем null в setOpenItem, так окно закроется, потому что openItem будет null
@@ -113,6 +116,7 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
     count: counter.count,
     // берется значение из объекта из useToppings
     topping: itemToppings.toppings,
+    choice: itemChoices.choice,
   };
 
   const addToOrder = () => {
@@ -135,11 +139,17 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
           <CountItem {...counter} />
           {/* рендерить только если они есть */}
           {openItem.toppings && <Toppings {...itemToppings} />}
+          {openItem.choices && (
+            <Choices {...itemChoices} openItem={openItem}></Choices>
+          )}
           <TotalPriceItem>
             <span>Total price: </span>
             <span>{formatCurrency(countItemsPrice(order))}</span>
           </TotalPriceItem>
-          <Btn onClick={addToOrder}>Add</Btn>
+          {/* запрет добавления товара, если опции есть, но не были выбраны */}
+          <Btn onClick={addToOrder} disabled={order.choices && !order.choice}>
+            Add
+          </Btn>
         </Content>
       </Modal>
     </Overlay>

@@ -55,7 +55,7 @@ const EmptyList = styled.p`
   text-align: center;
 `;
 
-export const Order = ({ orders }) => {
+export const Order = ({ orders, setOrders }) => {
   // функция перебора всех элементов, чтобы посчитать стоимость
   const total = orders.reduce(
     (result, order) => countItemsPrice(order) + result,
@@ -67,6 +67,23 @@ export const Order = ({ orders }) => {
     0
   );
 
+  const deleteItem = index => {
+    // клпируем массив с заказами в новый массив
+    const newOrder = [...orders];
+    // удаляем из нового массива элемент по индексу
+    newOrder.splice(index, 1);
+    // меняем заказ на newOrder с помощью setOrders
+    setOrders(newOrder);
+
+    // * можно сделать через фильтр
+    /* 
+      code: 
+      // если индекс элемента не равен удаляемому, то возвращаем его в newOrder
+      const newOrder = orders.filter((item, i) => index !== i);
+      setOrders(newOrder);
+    */
+  };
+
   return (
     <OrderStyled>
       <OrderTitle>You ordered: </OrderTitle>
@@ -75,8 +92,13 @@ export const Order = ({ orders }) => {
         {/* проверяем есть ли заказы в списке заказов, если да, то отображаются компоненты, если нет, то надпись, что списко заказов пуст */}
         {orders.length ? (
           <OrderList>
-            {orders.map(order => (
-              <OrderListItem order={order} key={order.id} />
+            {orders.map((order, index) => (
+              <OrderListItem
+                order={order}
+                key={index}
+                deleteItem={deleteItem}
+                index={index}
+              />
             ))}
           </OrderList>
         ) : (

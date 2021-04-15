@@ -12,6 +12,11 @@ const getToppings = toppings => {
   }
 };
 
+// можно сделать проверку на наличие топпингов не в функции, а создать переменную, ее передавать в useState
+/* 
+  code: 
+  const readyTopping = openItem.toppings ? getToppings(openItem.toppings) : [];
+*/
 export function useToppings(openItem) {
   // мы не имеем права менять стейт
   // с хуками можно
