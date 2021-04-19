@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import logoImg from './../../img/logo-img.svg';
 import { Btn } from '../Btn/Btn';
 
-
 const NavBarStyled = styled.header`
   position: fixed;
   top: 0;
@@ -32,14 +31,36 @@ const ImgLogo = styled.img`
   width: 60px;
 `;
 
+const User = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
-export const NavBar = () => (
+const LogOut = styled.span`
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+`;
+
+const UserName = styled.span`
+  font-size: 14px;
+`;
+
+export const NavBar = ({ authentication, logIn, logOut }) => (
   <NavBarStyled>
     <Logo>
-      <ImgLogo src={logoImg} alt="logo"/>
+      <ImgLogo src={logoImg} alt="logo" />
       <H1>Col. Sanders</H1>
     </Logo>
-    
-    <Btn>Log In</Btn>
+    {authentication ? (
+      <User>
+        <UserName>{authentication.displayName}</UserName>
+        <LogOut title="log out" onClick={logOut}>
+          &#10006;
+        </LogOut>
+      </User>
+    ) : (
+      <Btn onClick={logIn}>Log In</Btn>
+    )}
   </NavBarStyled>
 );

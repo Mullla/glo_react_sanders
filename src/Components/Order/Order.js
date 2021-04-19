@@ -55,7 +55,13 @@ const EmptyList = styled.p`
   text-align: center;
 `;
 
-export const Order = ({ orders, setOrders, setOpenItem }) => {
+export const Order = ({
+  orders,
+  setOrders,
+  setOpenItem,
+  authentication,
+  logIn,
+}) => {
   // функция перебора всех элементов, чтобы посчитать стоимость
   const total = orders.reduce(
     (result, order) => countItemsPrice(order) + result,
@@ -113,7 +119,17 @@ export const Order = ({ orders, setOrders, setOpenItem }) => {
         <TotalPrice>{formatCurrency(total)}</TotalPrice>
       </Total>
 
-      <Btn>Order</Btn>
+      <Btn
+        onClick={() => {
+          if (authentication) {
+            console.log(orders);
+          } else {
+            logIn();
+          }
+        }}
+      >
+        Order
+      </Btn>
     </OrderStyled>
   );
 };

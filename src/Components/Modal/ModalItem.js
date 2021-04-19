@@ -35,7 +35,7 @@ const Modal = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  position: relative;
   border: 5px solid transparent;
   border-image: linear-gradient(
     to right bottom,
@@ -94,9 +94,47 @@ const TotalPriceItem = styled.div`
   margin-bottom: auto;
 `;
 
+const CloseBtn = styled.button`
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  top: -40px;
+  right: -40px;
+  border: none;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    width: 30px;
+    left: 50%;
+    background: #38c8f4;
+    height: 2px;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 30px;
+    left: 50%;
+    background: #c838f4;
+    height: 2px;
+  }
+  &:hover {
+    ::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    ::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+`;
+
 export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
   // подключаю хук, у которого есть состояние, функция: которая обрабатывает состояние и обработчик onChange
-  const counter = useCount(openItem);
+  const counter = useCount(openItem.count);
   // топпинги конкретного блюда
   // объект
   const itemToppings = useToppings(openItem);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import trashImage from './../../img/trash.svg';
 // functions
@@ -88,11 +88,13 @@ export const OrderListItem = ({ order, index, deleteItem, setOpenItem }) => {
     .join(', ');
   */
 
+  const refDeleteBtn = useRef(null);
+
   return (
     // передаем индекс, чтобы знать, какой именно заказ мы редактируем
     <OrderItemStyled
       onClick={e =>
-        !e.target.closest('button') ? setOpenItem({ ...order, index }) : ''
+        e.target !== refDeleteBtn.current && setOpenItem({ ...order, index })
       }
     >
       <div>
@@ -101,7 +103,7 @@ export const OrderListItem = ({ order, index, deleteItem, setOpenItem }) => {
         </ItemName>
         <span>{order.count}</span>
         <ItemPrice>{formatCurrency(countItemsPrice(order))}</ItemPrice>
-        <DeleteBtn onClick={() => deleteItem(index)} />
+        <DeleteBtn ref={refDeleteBtn} onClick={() => deleteItem(index)} />
       </div>
       {/* 
         если выводить строкой
