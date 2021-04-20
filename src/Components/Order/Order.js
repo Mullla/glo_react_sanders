@@ -5,6 +5,7 @@ import { OrderListItem } from './OrderListItem';
 import {
   countItemsPrice,
   formatCurrency,
+  projection,
 } from '../Functions/secondaryFunctions';
 
 const OrderStyled = styled.aside`
@@ -55,13 +56,39 @@ const EmptyList = styled.p`
   text-align: center;
 `;
 
+const rulesData = {
+  name: ['name'],
+  price: ['price'],
+  count: ['count'],
+  topping: [
+    'topping',
+    arr => arr.filter(obj => obj.checked).map(obj => obj.name),
+    arr => (arr.length ? arr : 'no options'),
+  ],
+  choice: ['choice', item => (item ? item : 'no options')],
+};
+
 export const Order = ({
   orders,
   setOrders,
   setOpenItem,
   authentication,
   logIn,
+  firebaseDatabase,
 }) => {
+  const dataBase = firebaseDatabase();
+
+  const sendOrder = () => {
+    const newOrder = orders.map(projection(rulesData));
+    dataBase.ref('orders').push().set({
+      clientName: authentication.displayName,
+      clientEmail: authentication.email,
+      order: newOrder,
+    });
+
+    setOrders([]);
+  };
+
   // функция перебора всех элементов, чтобы посчитать стоимость
   const total = orders.reduce(
     (result, order) => countItemsPrice(order) + result,
@@ -122,7 +149,7 @@ export const Order = ({
       <Btn
         onClick={() => {
           if (authentication) {
-            console.log(orders);
+            sendOrder();
           } else {
             logIn();
           }

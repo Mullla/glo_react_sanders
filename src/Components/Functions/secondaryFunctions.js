@@ -15,3 +15,16 @@ export const countItemsPrice = order => {
 
   return (order.price + toppingPrice) * order.count;
 };
+
+export const projection = rules => {
+  const keys = Object.keys(rules);
+
+  return obj =>
+    keys.reduce((newObj, key) => {
+      newObj[key] = rules[key].reduce(
+        (value, fn, i) => (i ? fn(value) : obj[fn]),
+        null
+      );
+      return newObj;
+    }, {});
+};

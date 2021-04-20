@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
 /* components */
 import { GlobalStyle } from './Components/Style/GlobalStyle';
 import { NavBar } from './Components/NavBar/NavBar';
@@ -11,6 +12,7 @@ import { Order } from './Components/Order/Order';
 import { useOpenItem } from './Components/Hooks/useOpenItem';
 import { useOrders } from './Components/Hooks/useOrders';
 import { useAuth } from './Components/Hooks/useAuth';
+import { useTitle } from './Components/Hooks/useTitle';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBLcULVxhZYGx4FAOmI4NwHBBvfcrRz-OY',
@@ -29,13 +31,19 @@ function App() {
   const auth = useAuth(firebase.auth);
   const openItem = useOpenItem();
   const orders = useOrders();
+  useTitle(openItem.openItem);
 
   return (
     <>
       <GlobalStyle />
       <NavBar {...auth} />
       {/* передаем в ордер openItem чтобы могли открывать модальное окно */}
-      <Order {...orders} {...openItem} {...auth} />
+      <Order
+        {...orders}
+        {...openItem}
+        {...auth}
+        firebaseDatabase={firebase.database}
+      />
       {/* с помощью спред-оператора сразу передаем все свойства объекта openItem, функция useOpenItem возвращает объект */}
       <Menu {...openItem} />
       {/* если в объекте openItem будет свойство openItem(то есть возвращает не undefined), тогда вернется ModalItem */}
