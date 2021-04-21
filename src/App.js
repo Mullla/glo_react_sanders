@@ -13,6 +13,7 @@ import { useOpenItem } from './Components/Hooks/useOpenItem';
 import { useOrders } from './Components/Hooks/useOrders';
 import { useAuth } from './Components/Hooks/useAuth';
 import { useTitle } from './Components/Hooks/useTitle';
+import { useDB } from './Components/Hooks/useDB';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBLcULVxhZYGx4FAOmI4NwHBBvfcrRz-OY',
@@ -31,21 +32,18 @@ function App() {
   const auth = useAuth(firebase.auth);
   const openItem = useOpenItem();
   const orders = useOrders();
+  const database = firebase.database();
   useTitle(openItem.openItem);
+  const dbMenu = useDB(database);
 
   return (
     <>
       <GlobalStyle />
       <NavBar {...auth} />
       {/* передаем в ордер openItem чтобы могли открывать модальное окно */}
-      <Order
-        {...orders}
-        {...openItem}
-        {...auth}
-        firebaseDatabase={firebase.database}
-      />
+      <Order {...orders} {...openItem} {...auth} database={database} />
       {/* с помощью спред-оператора сразу передаем все свойства объекта openItem, функция useOpenItem возвращает объект */}
-      <Menu {...openItem} />
+      <Menu {...openItem} dbMenu={dbMenu} />
       {/* если в объекте openItem будет свойство openItem(то есть возвращает не undefined), тогда вернется ModalItem */}
       {openItem.openItem && <ModalItem {...openItem} {...orders} />}
     </>

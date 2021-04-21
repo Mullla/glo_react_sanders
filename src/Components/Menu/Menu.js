@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { ListItem } from './ListItem';
 import { Banner } from './Banner';
-import { useFetch } from '../Hooks/useFetch';
+// import { useFetch } from '../Hooks/useFetch';
 
 const MenuStyled = styled.main`
   margin-top: 80px;
@@ -86,15 +86,15 @@ const ThirdOrbit = styled.div`
 `;
 
 // сразу деструктурируем пропс при передаче
-export const Menu = ({ setOpenItem }) => {
-  const result = useFetch();
+export const Menu = ({ setOpenItem, dbMenu }) => {
+  // const result = useFetch();
 
-  const dbMenu = result.response;
+  // const dbMenu = result.response;
 
   return (
     <MenuStyled>
       <Banner />
-      {result.response ? (
+      {dbMenu ? (
         <>
           <SectionMenu>
             <h2>Meals</h2>
@@ -106,8 +106,6 @@ export const Menu = ({ setOpenItem }) => {
             <ListItem itemList={dbMenu.other} setOpenItem={setOpenItem} />
           </SectionMenu>
         </>
-      ) : result.error ? (
-        <div>Sorry, we'll fix it soon </div>
       ) : (
         <Loader>
           <FirstOrbit></FirstOrbit>
