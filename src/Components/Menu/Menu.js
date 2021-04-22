@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ListItem } from './ListItem';
 import { Banner } from './Banner';
 import { useFetch } from '../Hooks/useFetch';
+import { Context } from '../Functions/context';
 
 const MenuStyled = styled.main`
   margin-top: 80px;
@@ -85,8 +86,11 @@ const ThirdOrbit = styled.div`
 
 `;
 
-// сразу деструктурируем пропс при передаче
-export const Menu = ({ setOpenItem }) => {
+export const Menu = () => {
+  const {
+    openItem: { setOpenItem },
+  } = useContext(Context);
+
   const result = useFetch();
 
   const dbMenu = result.response;

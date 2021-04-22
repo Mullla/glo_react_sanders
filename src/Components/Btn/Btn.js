@@ -8,8 +8,7 @@ export const Btn = styled.button`
   color: inherit;
   position: relative;
   transition: all 0.3s ease-in-out;
-  margin-bottom: 25px;
-  margin-top: auto;
+  margin: auto auto 25px;
   align-self: center;
   &::before {
     content: '';

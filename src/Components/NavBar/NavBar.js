@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import logoImg from './../../img/logo-img.svg';
 import { Btn } from '../Btn/Btn';
+import { Context } from '../Functions/context';
 
 const NavBarStyled = styled.header`
   position: fixed;
@@ -46,21 +47,27 @@ const UserName = styled.span`
   font-size: 14px;
 `;
 
-export const NavBar = ({ authentication, logIn, logOut }) => (
-  <NavBarStyled>
-    <Logo>
-      <ImgLogo src={logoImg} alt="logo" />
-      <H1>Col. Sanders</H1>
-    </Logo>
-    {authentication ? (
-      <User>
-        <UserName>{authentication.displayName}</UserName>
-        <LogOut title="log out" onClick={logOut}>
-          &#10006;
-        </LogOut>
-      </User>
-    ) : (
-      <Btn onClick={logIn}>Log In</Btn>
-    )}
-  </NavBarStyled>
-);
+export const NavBar = () => {
+  const {
+    auth: { authentication, logIn, logOut },
+  } = useContext(Context);
+
+  return (
+    <NavBarStyled>
+      <Logo>
+        <ImgLogo src={logoImg} alt="logo" />
+        <H1>Col. Sanders</H1>
+      </Logo>
+      {authentication ? (
+        <User>
+          <UserName>{authentication.displayName}</UserName>
+          <LogOut title="log out" onClick={logOut}>
+            &#10006;
+          </LogOut>
+        </User>
+      ) : (
+        <Btn onClick={logIn}>Log In</Btn>
+      )}
+    </NavBarStyled>
+  );
+};

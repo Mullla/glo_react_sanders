@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Btn } from '../Btn/Btn';
 import { OrderListItem } from './OrderListItem';
+import { OrderTitle, Total, TotalPrice } from '../Style/Components';
 import {
   countItemsPrice,
   formatCurrency,
-  projection,
 } from '../Functions/secondaryFunctions';
+import { Context } from '../Functions/context';
 
 const OrderStyled = styled.aside`
   display: flex;
@@ -25,69 +26,23 @@ const OrderStyled = styled.aside`
   padding: 20px;
 `;
 
-const OrderTitle = styled.h2`
-  text-align: center;
-  margin-bottom: 30px;
-`;
-
 const OrderContent = styled.div`
   flex-grow: 1;
 `;
 
 const OrderList = styled.ul``;
 
-const Total = styled.div`
-  display: flex;
-  margin: 0 35px 30px;
-  margin-top: auto;
-  & span:first-child {
-    flex-grow: 1;
-  }
-`;
-
-const TotalPrice = styled.span`
-  text-align: right;
-  margin-left: 20px;
-  min-width: 65px;
-  font-weight: 700;
-`;
-
 const EmptyList = styled.p`
   text-align: center;
 `;
 
-const rulesData = {
-  name: ['name'],
-  price: ['price'],
-  count: ['count'],
-  topping: [
-    'topping',
-    arr => arr.filter(obj => obj.checked).map(obj => obj.name),
-    arr => (arr.length ? arr : 'no options'),
-  ],
-  choice: ['choice', item => (item ? item : 'no options')],
-};
-
-export const Order = ({
-  orders,
-  setOrders,
-  setOpenItem,
-  authentication,
-  logIn,
-  firebaseDatabase,
-}) => {
-  const dataBase = firebaseDatabase();
-
-  const sendOrder = () => {
-    const newOrder = orders.map(projection(rulesData));
-    dataBase.ref('orders').push().set({
-      clientName: authentication.displayName,
-      clientEmail: authentication.email,
-      order: newOrder,
-    });
-
-    setOrders([]);
-  };
+export const Order = () => {
+  const {
+    orders: { orders, setOrders },
+    openItem: { setOpenItem },
+    auth: { authentication, logIn },
+    orderConfirm: { setOpenOrderConfirm },
+  } = useContext(Context);
 
   // функция перебора всех элементов, чтобы посчитать стоимость
   const total = orders.reduce(
@@ -140,23 +95,29 @@ export const Order = ({
         )}
       </OrderContent>
 
-      <Total>
-        <span>Total:</span>
-        <span>{totalCounter}</span>
-        <TotalPrice>{formatCurrency(total)}</TotalPrice>
-      </Total>
+      {orders.length ? (
+        <>
+          <Total>
+            <span>Total:</span>
+            <span>{totalCounter}</span>
+            <TotalPrice>{formatCurrency(total)}</TotalPrice>
+          </Total>
 
-      <Btn
-        onClick={() => {
-          if (authentication) {
-            sendOrder();
-          } else {
-            logIn();
-          }
-        }}
-      >
-        Order
-      </Btn>
+          <Btn
+            onClick={() => {
+              if (authentication) {
+                setOpenOrderConfirm(true);
+              } else {
+                logIn();
+              }
+            }}
+          >
+            Order
+          </Btn>
+        </>
+      ) : (
+        ''
+      )}
     </OrderStyled>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 // * Components
 import { Btn } from '../Btn/Btn';
@@ -14,18 +14,8 @@ import {
   formatCurrency,
   countItemsPrice,
 } from '../Functions/secondaryFunctions';
-
-const Overlay = styled.div`
-  position: fixed;
-  display: flex;
-  align-items: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 2;
-`;
+import { Context } from '../Functions/context';
+import { Overlay } from '../Style/Components';
 
 const Modal = styled.div`
   margin: auto;
@@ -94,45 +84,12 @@ const TotalPriceItem = styled.div`
   margin-bottom: auto;
 `;
 
-const CloseBtn = styled.button`
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background: transparent;
-  top: -40px;
-  right: -40px;
-  border: none;
-  &::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(-45deg);
-    width: 30px;
-    left: 50%;
-    background: #38c8f4;
-    height: 2px;
-  }
-  &::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
-    width: 30px;
-    left: 50%;
-    background: #c838f4;
-    height: 2px;
-  }
-  &:hover {
-    ::before {
-      transform: translate(-50%, -50%) rotate(45deg);
-    }
-    ::after {
-      transform: translate(-50%, -50%) rotate(-45deg);
-    }
-  }
-`;
+export const ModalItem = () => {
+  const {
+    openItem: { openItem, setOpenItem },
+    orders: { orders, setOrders },
+  } = useContext(Context);
 
-export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
   // подключаю хук, у которого есть состояние, функция: которая обрабатывает состояние и обработчик onChange
   const counter = useCount(openItem.count);
   // топпинги конкретного блюда
